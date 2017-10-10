@@ -12,7 +12,7 @@ bool needsSorting(int rangeSize){
 void mergeRanges(int* values, int startIndex, int midPoint, int endIndex){
 	int rangeSize, firstIndex, secondIndex, copyIndex, i;
 	rangeSize = endIndex - startIndex;
-	int destination[rangeSize];
+	int* destination = (int*) calloc(rangeSize, sizeof(int));
 	firstIndex = startIndex;
 	secondIndex = midPoint;
 	copyIndex = 0;
@@ -43,6 +43,7 @@ void mergeRanges(int* values, int startIndex, int midPoint, int endIndex){
 	for(i=0; i<rangeSize; ++i){
 		values[i + startIndex] = destination[i];
 	}
+	free(destination);
 }
 
 void mergesortRange(int* values, int startIndex, int endIndex){
