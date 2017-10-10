@@ -19,6 +19,7 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 	for(int j = 0; j < num_arrays; j++){
 		for(int k = 0; k < sizes[j]; k++){
 			tempArray[count] = values[j][k];
+			count++;
 		}
 	}
 
@@ -44,6 +45,8 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 		}
 	}
 
+	free(tempArray);
+
 	int *result = (int*)calloc(finalCount + 1, sizeof(int));
 
 	if (tempSize != 0) {
@@ -54,7 +57,6 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 	}
 
 	free(holding);
-	free(tempArray);
 
 	return result;
 }
