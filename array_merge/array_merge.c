@@ -17,7 +17,7 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 	int *tempArray = (int*)calloc(tempSize, sizeof(int));
 
 	for(int j = 0; j < num_arrays; j++){
-		for(int k =0; k < sizes; k++){
+		for(int k = 0; k < sizes[j]; k++){
 			tempArray[count] = values[j][k];
 		}
 	}
