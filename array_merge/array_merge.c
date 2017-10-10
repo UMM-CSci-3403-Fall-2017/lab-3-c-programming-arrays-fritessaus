@@ -1,15 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#include "mergesort.h"
+#include "../mergesort/mergesort.c"
 #include "array_merge.h"
 
 int* array_merge(int num_arrays, int* sizes, int** values){
 	int tempSize = 0;
 	int count = 0;
 	int finalCount = 0;
-	int index = 1;
 	int tempValue;
+	int currentIndex = 1;
 
 	for(int i = 0; i < num_arrays; i++){
 		tempSize += sizes[i];
@@ -25,14 +24,19 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 
 	mergesort(tempSize, tempArray);
 	
-	tempValue = tempArray[0];
-	
 	if (tempSize != 0) {
 		finalCount++;
+		tempValue = tempArray[0];
 	}
+
+	int *holding = (int*)calloc(tempSize, sizeof(int));
+
+	holding[0] = tempArray[0];
 
 	for(int l = 0; l < tempSize; l++){
 		if (tempArray[l] != tempValue) {
+			holding[currentIndex] = tempArray[l];
+			currentIndex++;
 			finalCount++;
 			tempValue = tempArray[l];
 		} else {
@@ -40,80 +44,18 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 		}
 	}
 
-	int *result = (int*)calloc(finalCount, sizeof(int));
+	int *result = (int*)calloc(finalCount + 1, sizeof(int));
 
 	if (tempSize != 0) {
 		result[0] = finalCount;
-		result[1] = tempArray[0];
-	}
-
-	for(int h = 0; h < (tempSize - 1); h++) {
-		if (tempArray[h] != tempArray[h+1];{
-				}
-	}
-
-
-
-
-}
-
-bool needsSorting(int rangeSize){
-        return rangeSize > 1;
-}
-
-void mergeRanges(int* values, int startIndex, int midPoint, int endIndex){
-	int rangeSize, firstIndex, secondIndex, copyIndex, i;
-	rangeSize = endIndex - startIndex;
-	int destination[rangeSize];
-	firstIndex = startIndex;
-	secondIndex = midPoint;
-	copyIndex = 0;
-	while(firstIndex < midPoint && secondIndex < endIndex){
-		if(values[firstIndex] < values[secondIndex]){
-			destination[copyIndex] = values[firstIndex];
-			++firstIndex;
+		for(int k = 1; k < (finalCount + 1); k++) {
+			result[k] = holding[k-1]; 
 		}
-		else{
-			destination[copyIndex] = values[secondIndex];
-			++secondIndex;
-		}
-		++copyIndex;
 	}
 
-	while(firstIndex < midPoint){
-		destination[copyIndex] = values[firstIndex];
-		++copyIndex;
-		++firstIndex;
-	}
+	free(holding);
+	free(tempArray);
 
-	while(secondIndex < endIndex){
-		destination[copyIndex] = values[secondIndex];
-		++copyIndex;
-		++secondIndex;
-	}
-
-	for(i=0; i<rangeSize; ++i){
-		values[i + startIndex] = destination[i];
-	}
+	return result;
 }
-
-void mergesortRange(int* values, int startIndex, int endIndex){
-        int rangeSize, midPoint;
-        bool needSort;
-        rangeSize = endIndex - startIndex;
-        needSort = needsSorting(rangeSize);
-
-        if(needSort){
-                midPoint = (startIndex + endIndex)/2;
-                mergesortRange(values, startIndex, midPoint);
-                mergesortRange(values, midPoint, endIndex);
-                mergeRanges(values, startIndex, midPoint, endIndex);
-        }
-}
-
-void mergesort(int size, int* values){
-        mergesortRange(values, 0, size);
-}	
-
-	
 
