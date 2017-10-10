@@ -10,6 +10,7 @@ void arrays_match(int size, int a[], int b[]) {
   }
 }
 
+//Added freeing result for every test cases
 TEST(ArrayMerge, Handle_empty_list) {
   int* a[] = { };
   int sizes[] = { };
@@ -95,6 +96,7 @@ TEST(ArrayMerge, Handle_different_sizes) {
   arrays_match(11, result, expected);
   free(result);
   
+  //Added this for loop to free up any spaces allocated in array a
   for(int k = 0; k < num_arrays; k++){
   	free(a[k]);
   }
@@ -119,7 +121,8 @@ TEST(ArrayMerge, Handle_different_sizes_reversed) {
   result = array_merge(num_arrays, sizes, a);
   arrays_match(11, result, expected);
   free(result);
-  
+
+  //see above
   for(int k = 0; k < num_arrays; k++) {
 	free(a[k]);
   }
