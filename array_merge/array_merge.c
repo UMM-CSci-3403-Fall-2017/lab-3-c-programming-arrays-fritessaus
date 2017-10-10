@@ -31,8 +31,10 @@ int* array_merge(int num_arrays, int* sizes, int** values){
 	}
 
 	int *holding = (int*)calloc(tempSize, sizeof(int));
-
-	holding[0] = tempArray[0];
+	
+	if (tempSize != 0){
+		holding[0] = tempArray[0];
+	}
 
 	for(int l = 0; l < tempSize; l++){
 		if (tempArray[l] != tempValue) {
